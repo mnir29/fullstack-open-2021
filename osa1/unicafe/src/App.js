@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 
 const Button = ({clickHandler, text}) => <button onClick={clickHandler}>{text}</button>
 
-const StatisticLine = ({text, value}) => <p>{text} {value}</p>
+const StatisticLine = ({text, value}) => {
+  return (
+    <tr>
+      <td>{text}</td><td>{value}</td>
+    </tr>
+  )
+}
 
 const Header = (props) => {
   return (
@@ -28,18 +34,19 @@ const Statistics = ({counts}) => {
         :
         (
           <div>
-            <StatisticLine text='good' value={counts[0]} />
-            <StatisticLine text='neutral' value={counts[1]} />
-            <StatisticLine text='bad' value={counts[2]} />
-            <StatisticLine text='average' value={average} />
-            <StatisticLine text='positive' value={positivePercentage + ' %'} />
-            {/* <p>average {average}</p>
-            <p>positive {positivePercentage} %</p> */}
+            <table>
+              <tbody>
+                <StatisticLine text='good' value={counts[0]} />
+                <StatisticLine text='neutral' value={counts[1]} />
+                <StatisticLine text='bad' value={counts[2]} />               
+                <StatisticLine text='average' value={average} />
+                <StatisticLine text='positive' value={positivePercentage + ' %'} />
+              </tbody>
+            </table>          
           </div>
         )
       }
-    </div>
-    
+    </div>   
   )
 }
 
