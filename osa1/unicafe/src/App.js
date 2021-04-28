@@ -12,6 +12,35 @@ const Header = (props) => {
   )
 }
 
+const Statistics = ({counts}) => {
+  const sum = counts.reduce((a,b) => a + b, 0)
+  const average = ((counts[0] * 1) + (counts[2] * -1))/sum
+  const positivePercentage = counts[0] / sum * 100
+
+  return (
+    <div>
+      <Header text='Statistics' />
+      {
+        sum <= 0 ?
+        (
+          <p>No feedback given</p>
+        )
+        :
+        (
+          <div>
+            <Count text='good' count={counts[0]} />
+            <Count text='neutral' count={counts[1]} />
+            <Count text='bad' count={counts[2]} />
+            <p>average {average}</p>
+            <p>positive {positivePercentage} %</p>
+          </div>
+        )
+      }
+    </div>
+    
+  )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -36,10 +65,7 @@ const App = () => {
       <Button clickHandler={addGood} text='good' />
       <Button clickHandler={addNeutral} text='neutral' />
       <Button clickHandler={addBad} text='bad' />
-      <Header text='Statistics' />
-      <Count text='good' count={good} />
-      <Count text='neutral' count={neutral} />
-      <Count text='bad' count={bad} />
+      <Statistics counts={[good, neutral, bad]} />
     </div>
   )
 }
