@@ -1,1 +1,1 @@
-Tehtävien 2.5-2.10 React-applikaatio
+Tehtävien 2.6-2.10 React-applikaatio
