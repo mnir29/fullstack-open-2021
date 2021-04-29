@@ -1,4 +1,8 @@
+
 import React, { useState } from 'react'
+import FilterTool from './components/FIlterTool'
+import ContactForm from "./components/ContactForm";
+import ContactList from "./components/ContactList";
 
 const App = () => {
   const [ filterText, setFilterText ] = useState('')
@@ -11,7 +15,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
 
-  const handleNameSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     persons.find(person => person.name === newName) === undefined 
     ?
@@ -38,34 +42,24 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with: <input onChange={updateFilterText} value={filterText} />
-      </div>
-      <form onSubmit={handleNameSubmit}>
-        <h3>add a new contact</h3>
-        <div>
-          name: <input onChange={updateNewName} value={newName} />
-        </div>
-        <div>
-          number: <input onChange={updateNewNumber} value={newNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <FilterTool updateFilterText={updateFilterText} filterText={filterText} />
+      
+      <h3>Add a new contact</h3>
+      <ContactForm 
+        handleSubmit={handleSubmit}
+        updateNewName={updateNewName}
+        newName={newName}
+        updateNewNumber={updateNewNumber}
+        newNumber={newNumber}
+      />
+      
       <h3>Names and numbers</h3>
       
-      {/* If filter text is given, names will be filtered caseinsensitively.
-      If filter text is not given, all names will be shown */}
-      {filterText !== '' ?
-      (persons.filter(person => person.name.toLowerCase().includes(filterText.toLowerCase())).map((person) => {
-        return <p key={person.name}>{person.name} {person.number}</p>
-      }))
-      :
-      (persons.map((person) => {
-        return <p key={person.name}>{person.name} {person.number}</p>
-      }))
-      }
+      <ContactList 
+        persons={persons}
+        filterText={filterText}
+      />
+      
     </div>
   )
 
