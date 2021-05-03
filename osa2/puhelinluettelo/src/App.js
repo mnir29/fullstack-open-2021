@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import FilterTool from './components/FIlterTool'
+import FilterTool from './components/FilterTool'
 import ContactForm from "./components/ContactForm"
 import ContactList from "./components/ContactList"
 
