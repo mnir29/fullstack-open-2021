@@ -1,35 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
-const CountryInfo = ({ countryToShow }) => {
-  //console.log(countryToShow)
-  return (
-    <div>
-      <h1>{countryToShow.name}</h1>
-      <p>Capital: {countryToShow.capital}</p>
-      <p>Population: {countryToShow.population}</p>
-      <h2>Languages</h2>
-      <ul>
-        {countryToShow.languages.map(language => <li key={language.name}>{language.name}</li>)}
-      </ul>
-      <img src={countryToShow.flag} alt={`flag of ${countryToShow.name}`} width={200} />
-    </div>
-  )
-}
-
-const FilterTool = ({ updateFilterText, filterText }) => {
-  return (
-    <div>
-      Find countries: <input onChange={updateFilterText} value={filterText}></input>
-    </div>
-  )
-}
+import CountryInfo from './components/CountryInfo'
+import FilterTool from './components/FilterTool'
 
 function App() {
 
   const [ filterText, setFilterText ] = useState('')
   const [countries, setCountries] = useState([])
   const [shownCountries, setShownCountries] = useState([])
+
+  //console.log(process.env.REACT_APP_API_KEY)
+  const api_key = process.env.REACT_APP_API_KEY
 
   useEffect(() => {
     //console.log('effect')
@@ -60,7 +41,7 @@ function App() {
   else if (shownCountries.length === 1) {
     const countryToShow = countries.find(country => country.name === shownCountries[0])
     //console.log(countryToShow)
-    countriesInfo = <CountryInfo countryToShow={countryToShow} />
+    countriesInfo = <CountryInfo countryToShow={countryToShow} api_key={api_key} />
   } else if (shownCountries.length >= 2 && shownCountries.length <= 10) {
     countriesInfo = shownCountries.map(country => {
       return <p key={country}>{country} <button value={country} onClick={updateFilterText}>show</button></p>
