@@ -20,7 +20,7 @@ const App = () => {
       })
   }, [])
 
-  const handleSubmit = (event) => {
+  const handleAdd = (event) => {
     event.preventDefault()
     const newPerson = {
       name: newName,
@@ -29,20 +29,29 @@ const App = () => {
     persons.find(person => person.name === newName) === undefined 
     ?
     (
-      
       personService
         .create(newPerson)
           .then(returnedPerson => {
             console.log(returnedPerson)
             setPersons(persons.concat(returnedPerson))
           })
-
-      //setPersons(persons.concat({name: newName, number: newNumber}))
     )
     :
     (alert(`${newName} is already added to phonebook`)) 
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleDelete = (event, id, name) => {
+    event.preventDefault()
+    if (window.confirm(`Do you really want to delete contact: ${name}?`)) {
+      personService
+      .deletePerson(id)
+        .then(deletedPerson => {
+          console.log(deletedPerson)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
     
   }
 
@@ -65,7 +74,7 @@ const App = () => {
       
       <h3>Add a new contact</h3>
       <ContactForm 
-        handleSubmit={handleSubmit}
+        handleAdd={handleAdd}
         updateNewName={updateNewName}
         newName={newName}
         updateNewNumber={updateNewNumber}
@@ -76,6 +85,7 @@ const App = () => {
       
       <ContactList 
         persons={persons}
+        handleDelete={handleDelete}
         filterText={filterText}
       />
       

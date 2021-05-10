@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -21,29 +16,9 @@
       "id": 4
     },
     {
-      "name": "Pasi Kuikk",
-      "number": "020-202020",
-      "id": 5
-    },
-    {
-      "name": "Toni Kuikka",
-      "number": "0202-121241",
-      "id": 6
-    },
-    {
-      "name": "Pasi Toskala",
-      "number": "1212-123141",
-      "id": 7
-    },
-    {
       "name": "Teppo Winnipeg",
       "number": "020-1231512",
       "id": 8
-    },
-    {
-      "name": "Uusi Nimi",
-      "number": "12-12412341",
-      "id": 9
     },
     {
       "name": "Sami Kapanen",
@@ -54,16 +29,6 @@
       "name": "Jutta Laine",
       "number": "1231-15162",
       "id": 11
-    },
-    {
-      "name": "Taavi",
-      "number": "1201-12412515",
-      "id": 12
-    },
-    {
-      "name": "New Name",
-      "number": "12412415-2",
-      "id": 13
     }
   ]
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ContactForm = ({handleSubmit, updateNewName, newName, updateNewNumber, newNumber}) => {
+const ContactForm = ({handleAdd, updateNewName, newName, updateNewNumber, newNumber}) => {
   return (
-    <form onSubmit={handleSubmit}>    
+    <form onSubmit={handleAdd}>    
       <div>
         name: <input onChange={updateNewName} value={newName} />
       </div>
