@@ -26,20 +26,35 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    persons.find(person => person.name === newName) === undefined 
-    ?
-    (
+    const personFound = persons.find(person => person.name === newName)
+    if (personFound === undefined) {
       personService
         .create(newPerson)
           .then(returnedPerson => {
             console.log(returnedPerson)
             setPersons(persons.concat(returnedPerson))
           })
-    )
-    :
-    (alert(`${newName} is already added to phonebook`)) 
+    } else {
+      const changedPerson = {...personFound, number: newNumber}
+      if (window.confirm(`${personFound.name} is already added to phonebook, replace number with new one?`)) {
+        personService
+          .updateNumber(personFound.id, changedPerson)
+            .then(updatedPerson => {
+              console.log(updatedPerson)
+              setPersons(persons.map(person => person.id !== personFound.id ? person : updatedPerson))
+            })
+            .catch(error => {
+              alert(
+                `Person ${personFound.name} has already been deleted from server`
+              )
+              setPersons(persons.filter(person => person.id !== personFound.id))
+            })
+      }
+    }
+    
     setNewName('')
     setNewNumber('')
+  
   }
 
   const handleDelete = (event, id, name) => {
@@ -49,6 +64,12 @@ const App = () => {
       .deletePerson(id)
         .then(deletedPerson => {
           console.log(deletedPerson)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert(
+            `Person ${name} has already been deleted from server`
+          )
           setPersons(persons.filter(person => person.id !== id))
         })
     }
