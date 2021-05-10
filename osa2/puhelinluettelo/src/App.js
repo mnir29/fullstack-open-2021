@@ -1,36 +1,49 @@
 
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import FilterTool from './components/FilterTool'
 import ContactForm from "./components/ContactForm"
 import ContactList from "./components/ContactList"
+import personService from "./services/persons"
 
 const App = () => {
   const [ filterText, setFilterText ] = useState('')
-  const [persons, setPersons] = useState([])
+  const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(response)
       })
   }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    }
     persons.find(person => person.name === newName) === undefined 
     ?
-    (setPersons(persons.concat({name: newName, number: newNumber})))
+    (
+      
+      personService
+        .create(newPerson)
+          .then(returnedPerson => {
+            console.log(returnedPerson)
+            setPersons(persons.concat(returnedPerson))
+          })
+
+      //setPersons(persons.concat({name: newName, number: newNumber}))
+    )
     :
     (alert(`${newName} is already added to phonebook`)) 
-    
     setNewName('')
     setNewNumber('')
+    
   }
 
   const updateFilterText = (event) => {
