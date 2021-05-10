@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import FilterTool from './components/FilterTool'
 import ContactForm from "./components/ContactForm"
 import ContactList from "./components/ContactList"
+import Notification from "./components/Notification"
 import personService from "./services/persons"
 
 const App = () => {
@@ -10,6 +11,8 @@ const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
+  const [ message, setMessage ] = useState(null)
+  const [ status, setStatus ] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -32,6 +35,14 @@ const App = () => {
         .create(newPerson)
           .then(returnedPerson => {
             console.log(returnedPerson)
+            setMessage(
+              `'${newName}' was added`
+            )
+            setStatus('success')
+            setTimeout(() => {
+              setMessage(null)
+              setStatus(null)
+            }, 5000)
             setPersons(persons.concat(returnedPerson))
           })
     } else {
@@ -41,12 +52,25 @@ const App = () => {
           .updateNumber(personFound.id, changedPerson)
             .then(updatedPerson => {
               console.log(updatedPerson)
+              setMessage(
+                `'${updatedPerson.name}' number was updated`
+              )
+              setStatus('success')
+              setTimeout(() => {
+                setMessage(null)
+                setStatus(null)
+              }, 5000)
               setPersons(persons.map(person => person.id !== personFound.id ? person : updatedPerson))
             })
             .catch(error => {
-              alert(
-                `Person ${personFound.name} has already been deleted from server`
+              setMessage(
+                `'${personFound.name}' has been deleted from server`
               )
+              setStatus('error')
+              setTimeout(() => {
+                setMessage(null)
+                setStatus(null)
+              }, 5000)
               setPersons(persons.filter(person => person.id !== personFound.id))
             })
       }
@@ -64,12 +88,25 @@ const App = () => {
       .deletePerson(id)
         .then(deletedPerson => {
           console.log(deletedPerson)
+          setMessage(
+            `'${name}' was deleted`
+          )
+          setStatus('success')
+          setTimeout(() => {
+            setMessage(null)
+            setStatus(null)
+          }, 5000)
           setPersons(persons.filter(person => person.id !== id))
         })
         .catch(error => {
-          alert(
-            `Person ${name} has already been deleted from server`
+          setMessage(
+            `'${name}' has already been deleted from server`
           )
+          setStatus('error')
+          setTimeout(() => {
+            setMessage(null)
+            setStatus(null)
+          }, 5000)
           setPersons(persons.filter(person => person.id !== id))
         })
     }
@@ -101,6 +138,8 @@ const App = () => {
         updateNewNumber={updateNewNumber}
         newNumber={newNumber}
       />
+
+      <Notification message={message} status={status} />
       
       <h3>Names and numbers</h3>
       
