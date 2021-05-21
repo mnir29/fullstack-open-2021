@@ -45,6 +45,17 @@ const App = () => {
             }, 5000)
             setPersons(persons.concat(returnedPerson))
           })
+          .catch(error => {
+            const errorMessage = error.response.data.error
+            setMessage(
+              `Error occurred: '${errorMessage}'`
+            )
+            setStatus('error')
+            setTimeout(() => {
+              setMessage(null)
+              setStatus(null)
+            }, 5000)
+          })
     } else {
       const changedPerson = {...personFound, number: newNumber}
       if (window.confirm(`${personFound.name} is already added to phonebook, replace number with new one?`)) {
